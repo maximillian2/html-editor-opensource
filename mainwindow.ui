@@ -40,39 +40,14 @@
       </property>
       <widget class="QWidget" name="untitled_tab">
        <attribute name="title">
-        <string>untitled</string>
+        <string>*untitled</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTextBrowser" name="textBrowser">
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.Helvetica Neue DeskInterface'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Enter text below:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="textEdit"/>
+         <widget class="QPlainTextEdit" name="plainTextEdit"/>
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="add_button">
-      <property name="text">
-       <string>Push me!</string>
-      </property>
      </widget>
     </item>
    </layout>
@@ -83,54 +58,71 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
+    <addaction name="menu_new_file"/>
+    <addaction name="menu_open_file"/>
+    <addaction name="menu_save_file"/>
+    <addaction name="menu_save_as"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="menu_exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionCopy"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionPaste"/>
-    <addaction name="actionDelete"/>
+    <addaction name="menu_copy"/>
+    <addaction name="menu_cut"/>
+    <addaction name="menu_paste"/>
+    <addaction name="separator"/>
+    <addaction name="menu_undo"/>
+    <addaction name="menu_redo"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionPreview"/>
-    <addaction name="actionBrowser_Preview"/>
+    <addaction name="menu_preview"/>
+    <addaction name="menu_browser_preview"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionAbout_Qt"/>
-    <addaction name="actionAbout_program"/>
+    <addaction name="menu_about_qt"/>
+    <addaction name="menu_about_program"/>
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">
      <string>Insert</string>
     </property>
+    <widget class="QMenu" name="list_submenu">
+     <property name="title">
+      <string>List</string>
+     </property>
+     <addaction name="menu_ordered"/>
+     <addaction name="menu_unordered"/>
+    </widget>
+    <addaction name="menu_bold"/>
+    <addaction name="menu_italic"/>
+    <addaction name="menu_underline"/>
+    <addaction name="list_submenu"/>
+    <addaction name="menu_image"/>
+    <addaction name="menu_hyperlink"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="actionShow_Toolbar"/>
-    <addaction name="actionShow_statusbar"/>
+    <addaction name="menu_show_toolbar"/>
+    <addaction name="menu_show_statusbar"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -150,29 +142,29 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew_tab"/>
-   <addaction name="actionOpen_file"/>
-   <addaction name="actionSave_file"/>
+   <addaction name="toolbar_new_file"/>
+   <addaction name="toolbar_open_file"/>
+   <addaction name="toolbar_save_file"/>
    <addaction name="separator"/>
-   <addaction name="actionUndo"/>
-   <addaction name="actionRedo"/>
+   <addaction name="toolbar_undo"/>
+   <addaction name="toolbar_redo"/>
    <addaction name="separator"/>
-   <addaction name="actionCut_2"/>
-   <addaction name="actionCopy_2"/>
-   <addaction name="actionPaste_2"/>
+   <addaction name="toolbar_cut"/>
+   <addaction name="toolbar_copy"/>
+   <addaction name="toolbar_paste"/>
    <addaction name="separator"/>
-   <addaction name="actionBold"/>
-   <addaction name="actionItalic"/>
-   <addaction name="actionUnderline"/>
-   <addaction name="actionList"/>
-   <addaction name="actionImage"/>
-   <addaction name="actionHyperlink"/>
+   <addaction name="toolbar_bold"/>
+   <addaction name="toolbar_italic"/>
+   <addaction name="toolbar_underline"/>
+   <addaction name="toolbar_list"/>
+   <addaction name="toolbar_image"/>
+   <addaction name="toolbar_hyperlink"/>
    <addaction name="separator"/>
-   <addaction name="actionSettings"/>
+   <addaction name="toolbar_settings"/>
    <addaction name="separator"/>
-   <addaction name="actionRun"/>
+   <addaction name="toolbar_run"/>
   </widget>
-  <action name="actionNew">
+  <action name="menu_new_file">
    <property name="text">
     <string>New</string>
    </property>
@@ -183,101 +175,117 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="menu_open_file">
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
-  <action name="actionSave">
+  <action name="menu_save_file">
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
-  <action name="actionSave_as">
+  <action name="menu_save_as">
    <property name="text">
     <string>Save as..</string>
    </property>
   </action>
-  <action name="actionExit">
+  <action name="menu_exit">
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+Q</string>
+   </property>
   </action>
-  <action name="actionCopy">
+  <action name="menu_copy">
    <property name="text">
     <string>Copy</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
   </action>
-  <action name="actionCut">
+  <action name="menu_cut">
    <property name="text">
     <string>Cut</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
-  <action name="actionPaste">
+  <action name="menu_paste">
    <property name="text">
     <string>Paste</string>
    </property>
-  </action>
-  <action name="actionDelete">
-   <property name="text">
-    <string>Delete</string>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
-  <action name="actionPreview">
+  <action name="menu_preview">
    <property name="text">
     <string>Preview</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
-  <action name="actionBrowser_Preview">
+  <action name="menu_browser_preview">
    <property name="text">
     <string>Browser Preview</string>
    </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
   </action>
-  <action name="actionAbout_Qt">
+  <action name="menu_about_qt">
    <property name="text">
     <string>About Qt</string>
    </property>
   </action>
-  <action name="actionAbout_program">
+  <action name="menu_about_program">
    <property name="text">
     <string>About program</string>
    </property>
   </action>
-  <action name="actionShow_Toolbar">
+  <action name="menu_show_toolbar">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show Toolbar</string>
+    <string>Toolbar</string>
    </property>
   </action>
-  <action name="actionShow_statusbar">
+  <action name="menu_show_statusbar">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show statusbar</string>
+    <string>Statusbar</string>
    </property>
   </action>
-  <action name="actionNew_tab">
+  <action name="toolbar_new_file">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/document.png</normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/document.png</iconset>
+     <normaloff>toolbar/document.png</normaloff>toolbar/document.png</iconset>
    </property>
    <property name="text">
-    <string>new_tab</string>
+    <string>new_file</string>
    </property>
    <property name="toolTip">
-    <string>New tab</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string>New file</string>
    </property>
   </action>
-  <action name="actionOpen_file">
+  <action name="toolbar_open_file">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/folder.png</normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/folder.png</iconset>
+     <normaloff>toolbar/folder.png</normaloff>toolbar/folder.png</iconset>
    </property>
    <property name="text">
     <string>open_file</string>
@@ -285,14 +293,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Open file</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
   </action>
-  <action name="actionSave_file">
+  <action name="toolbar_save_file">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-by-custom-icon-design/png/24x24/save.png</normaloff>Downloads/mono-general-icons-by-custom-icon-design/png/24x24/save.png</iconset>
+     <normaloff>toolbar/save.png</normaloff>toolbar/save.png</iconset>
    </property>
    <property name="text">
     <string>save_file</string>
@@ -300,14 +305,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Save file</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
   </action>
-  <action name="actionRun">
+  <action name="toolbar_run">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-3-by-custom-icon-design/png/24x24/wheels.png</normaloff>Downloads/mono-general-icons-3-by-custom-icon-design/png/24x24/wheels.png</iconset>
+     <normaloff>toolbar/wheels.png</normaloff>toolbar/wheels.png</iconset>
    </property>
    <property name="text">
     <string>run</string>
@@ -315,14 +317,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Run</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
   </action>
-  <action name="actionUndo">
+  <action name="toolbar_undo">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-3-by-custom-icon-design/png/24x24/undo.png</normaloff>Downloads/mono-general-icons-3-by-custom-icon-design/png/24x24/undo.png</iconset>
+     <normaloff>toolbar/undo.png</normaloff>toolbar/undo.png</iconset>
    </property>
    <property name="text">
     <string>undo</string>
@@ -330,14 +329,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Undo</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
   </action>
-  <action name="actionRedo">
+  <action name="toolbar_redo">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-3-by-custom-icon-design/png/24x24/redo.png</normaloff>Downloads/mono-general-icons-3-by-custom-icon-design/png/24x24/redo.png</iconset>
+     <normaloff>toolbar/redo.png</normaloff>toolbar/redo.png</iconset>
    </property>
    <property name="text">
     <string>redo</string>
@@ -345,14 +341,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Redo</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Y</string>
-   </property>
   </action>
-  <action name="actionCut_2">
+  <action name="toolbar_cut">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/cut.png</normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/cut.png</iconset>
+     <normaloff>toolbar/cut.png</normaloff>toolbar/cut.png</iconset>
    </property>
    <property name="text">
     <string>cut</string>
@@ -360,14 +353,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Cut</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+X</string>
-   </property>
   </action>
-  <action name="actionCopy_2">
+  <action name="toolbar_copy">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/copy.png</normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/copy.png</iconset>
+     <normaloff>toolbar/copy.png</normaloff>toolbar/copy.png</iconset>
    </property>
    <property name="text">
     <string>copy</string>
@@ -375,14 +365,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Copy</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
   </action>
-  <action name="actionPaste_2">
+  <action name="toolbar_paste">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/paste.png</normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/paste.png</iconset>
+     <normaloff>toolbar/paste.png</normaloff>toolbar/paste.png</iconset>
    </property>
    <property name="text">
     <string>paste</string>
@@ -390,14 +377,11 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Paste</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
-   </property>
   </action>
-  <action name="actionBold">
+  <action name="toolbar_bold">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/font_bold.png</normaloff>Downloads/font_bold.png</iconset>
+     <normaloff>toolbar/font_bold (1).png</normaloff>toolbar/font_bold (1).png</iconset>
    </property>
    <property name="text">
     <string>bold</string>
@@ -406,10 +390,10 @@ p, li { white-space: pre-wrap; }
     <string>Bold</string>
    </property>
   </action>
-  <action name="actionItalic">
+  <action name="toolbar_italic">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/font_italic.png</normaloff>Downloads/font_italic.png</iconset>
+     <normaloff>toolbar/font_italic.png</normaloff>toolbar/font_italic.png</iconset>
    </property>
    <property name="text">
     <string>italic</string>
@@ -418,10 +402,10 @@ p, li { white-space: pre-wrap; }
     <string>Italic</string>
    </property>
   </action>
-  <action name="actionUnderline">
+  <action name="toolbar_underline">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/font_underline.png</normaloff>Downloads/font_underline.png</iconset>
+     <normaloff>toolbar/font_underline (1).png</normaloff>toolbar/font_underline (1).png</iconset>
    </property>
    <property name="text">
     <string>underline</string>
@@ -430,10 +414,10 @@ p, li { white-space: pre-wrap; }
     <string>Underline</string>
    </property>
   </action>
-  <action name="actionList">
+  <action name="toolbar_list">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/list_bullets_black.png</normaloff>Downloads/list_bullets_black.png</iconset>
+     <normaloff>toolbar/list_bullets_black.png</normaloff>toolbar/list_bullets_black.png</iconset>
    </property>
    <property name="text">
     <string>list</string>
@@ -442,10 +426,10 @@ p, li { white-space: pre-wrap; }
     <string>List</string>
    </property>
   </action>
-  <action name="actionImage">
+  <action name="toolbar_image">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/image 1.png</normaloff>Downloads/image 1.png</iconset>
+     <normaloff>toolbar/image 1.png</normaloff>toolbar/image 1.png</iconset>
    </property>
    <property name="text">
     <string>image</string>
@@ -454,10 +438,10 @@ p, li { white-space: pre-wrap; }
     <string>Image</string>
    </property>
   </action>
-  <action name="actionHyperlink">
+  <action name="toolbar_hyperlink">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/link.png</normaloff>Downloads/link.png</iconset>
+     <normaloff>toolbar/link.png</normaloff>toolbar/link.png</iconset>
    </property>
    <property name="text">
     <string>hyperlink</string>
@@ -466,10 +450,10 @@ p, li { white-space: pre-wrap; }
     <string>Insert hyperlink</string>
    </property>
   </action>
-  <action name="actionSettings">
+  <action name="toolbar_settings">
    <property name="icon">
     <iconset>
-     <normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/setting.png</normaloff>Downloads/mono-general-icons-2-by-custom-icon-design/png/24x24/setting.png</iconset>
+     <normaloff>toolbar/setting.png</normaloff>toolbar/setting.png</iconset>
    </property>
    <property name="text">
     <string>settings</string>
@@ -478,7 +462,94 @@ p, li { white-space: pre-wrap; }
     <string>Settings</string>
    </property>
   </action>
+  <action name="menu_bold">
+   <property name="text">
+    <string>Bold</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="menu_italic">
+   <property name="text">
+    <string>Italic</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="menu_underline">
+   <property name="text">
+    <string>Underline</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="menu_ordered">
+   <property name="text">
+    <string>Ordered</string>
+   </property>
+  </action>
+  <action name="menu_unordered">
+   <property name="text">
+    <string>Unordered</string>
+   </property>
+  </action>
+  <action name="menu_image">
+   <property name="text">
+    <string>Image</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="menu_hyperlink">
+   <property name="text">
+    <string>Hyperlink</string>
+   </property>
+   <property name="toolTip">
+    <string>Hyperlink</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="menu_undo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="menu_redo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
  </widget>
- <resources/>
- <connections/>
+ <resources>
+  <include location="toolbar.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>menu_exit</sender>
+   <signal>activated()</signal>
+   <receiver>Editor</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
