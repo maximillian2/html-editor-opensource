@@ -2,6 +2,8 @@ require 'Qt4'
 require_relative 'mainwindow_ui'
 require_relative 'webpage_ui'
 require_relative 'new_tab'
+require_relative 'local_preview'
+require_relative 'no_file_open'
 
 class Start < Qt::MainWindow
   ## File submenu slots
@@ -14,10 +16,12 @@ class Start < Qt::MainWindow
   slots 'toggle_statusbar(bool)', 'toggle_toolbar(bool)'
   ## Insert submenu slots
   slots 'insert_bold()', 'insert_italic()', 'insert_underline()', 'insert_image()', 'insert_link()', 'insert_unordered_list()', 'insert_ordered_list()'  
+  ## Help submenu slot
+  slots 'about_program()'
   
   ## General slots
   slots 'remove_tab(int)', 'update_line_count()'
-  
+      
   def initialize(parent = nil)
     super
     @ui = Ui_Editor.new
@@ -36,13 +40,15 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.menu_hyperlink, SIGNAL('activated()'), self, SLOT('insert_link()'))
     Qt::Object.connect(@ui.menu_unordered, SIGNAL('activated()'), self, SLOT('insert_unordered_list()'))
     Qt::Object.connect(@ui.menu_ordered, SIGNAL('activated()'), self, SLOT('insert_ordered_list()'))
-    Qt::Object.connect(@ui.menu_copy, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('copy()'))
-    Qt::Object.connect(@ui.menu_cut, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('cut()'))
-    Qt::Object.connect(@ui.menu_paste, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('paste()'))
-    Qt::Object.connect(@ui.menu_undo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('undo()'))
-    Qt::Object.connect(@ui.menu_redo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('redo()'))
+#    Qt::Object.connect(@ui.menu_copy, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('copy()'))
+#    Qt::Object.connect(@ui.menu_cut, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('cut()'))
+#    Qt::Object.connect(@ui.menu_paste, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('paste()'))
+#    Qt::Object.connect(@ui.menu_undo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('undo()'))
+#    Qt::Object.connect(@ui.menu_redo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('redo()'))
+    Qt::Object.connect(@ui.menu_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))    
     Qt::Object.connect(@ui.menu_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))    
     Qt::Object.connect(@ui.menu_new_file, SIGNAL('activated()'), self, SLOT('new_file()'))
+    Qt::Object.connect(@ui.menu_about_program, SIGNAL('activated()'), self, SLOT('about_program()'))
         
     ## Connecting toolbar items 
     Qt::Object.connect(@ui.toolbar_run, SIGNAL('activated()'), self, SLOT('local_preview()'))
@@ -52,48 +58,54 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.toolbar_underline, SIGNAL('activated()'), self, SLOT('insert_underline()'))
     Qt::Object.connect(@ui.toolbar_image, SIGNAL('activated()'), self, SLOT('insert_image()'))
     Qt::Object.connect(@ui.toolbar_hyperlink, SIGNAL('activated()'), self, SLOT('insert_link()'))
-    Qt::Object.connect(@ui.toolbar_copy, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('copy()'))
-    Qt::Object.connect(@ui.toolbar_cut, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('cut()'))
-    Qt::Object.connect(@ui.toolbar_paste, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('paste()'))
-    Qt::Object.connect(@ui.toolbar_undo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('undo()'))
-    Qt::Object.connect(@ui.toolbar_redo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('redo()'))
+#    Qt::Object.connect(@ui.toolbar_copy, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('copy()'))
+#    Qt::Object.connect(@ui.toolbar_cut, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('cut()'))
+#    Qt::Object.connect(@ui.toolbar_paste, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('paste()'))
+#    Qt::Object.connect(@ui.toolbar_undo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('undo()'))
+#    Qt::Object.connect(@ui.toolbar_redo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('redo()'))
     Qt::Object.connect(@ui.toolbar_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))
     Qt::Object.connect(@ui.toolbar_new_file, SIGNAL('activated()'), self, SLOT('new_file()'))
     
-    ## Set default behaviour 
+    ## Connecting widget with command link buttons
+    Qt::Object.connect(@ui.new_file_linkbutton, SIGNAL('clicked()'), self, SLOT('new_file()'))
+    Qt::Object.connect(@ui.open_file_linkbutton, SIGNAL('clicked()'), self, SLOT('open_file()'))
+     
+    
+    ## Set default behaviour
+    @ui.no_file_widget.setVisible(true)
+    @ui.tabWidget.setVisible(false) 
+    @current_file = ''  
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true) 
-    @ui.plainTextEdit.setTabStopWidth(20)   ## tab width
-    @ui.plainTextEdit.setFocus
+#    @ui.plainTextEdit.setTabStopWidth(20)   ## tab width
+#    @ui.plainTextEdit.setFocus
     Qt::Object.connect(@ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self, SLOT('remove_tab(int)'))
-    Qt::Object.connect(@ui.plainTextEdit, SIGNAL('cursorPositionChanged()'), self, SLOT('update_line_count()'))
+#    Qt::Object.connect(@ui.plainTextEdit, SIGNAL('cursorPositionChanged()'), self, SLOT('update_line_count()'))
   end
   
-  def open_in_browser
-    puts 'triggered open_in_browser'
-    ## Bug here!!!
-    #QDesktopServices::openUrl("http://www.yandex.ua")
-    #system("xdg-open http://url.com") 
-  end 
-  
-  def local_preview
-    puts 'triggered local_preview'
-    @web_page = WebPage.new
-    @web_page.show
-  end
-  
+  ## FILE SUBMENU SLOTS
   def new_file
     puts 'triggered new_file'
-    @ui.tabWidget.addTab(New_Tab.new, "*unititled")
+    @ui.tabWidget.setVisible(true)
+    @ui.no_file_widget.setVisible(false)
+    @ui.tabWidget.addTab(New_Tab.new(self, nil), "*unititled")
+    @ui.toolbar_save_file.setEnabled(true) if @ui.tabWidget.count > 0
   end
   
   def open_file
     puts 'triggered open_file'
+    @ui.tabWidget.setVisible(true)
+    @ui.no_file_widget.setVisible(false)
+
     @filedialog = Qt::FileDialog
     @open_file = @filedialog.getOpenFileName(self, "Open file", Qt::Dir::homePath, "HTML Document(*.html);;All files(*)")
+    @current_file = @filedialog
     
+    puts 'got file name'
     unless @open_file.nil?
+        puts 'open_file is not nil'
        @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file), File.basename(@open_file))
+       puts 'inserted tab'
        @ui.tabWidget.setCurrentIndex(@ui.tabWidget.count-1)
     end
   end
@@ -105,6 +117,7 @@ class Start < Qt::MainWindow
     @savedialog.setDefaultSuffix("html")  # => not working. wtf? 
     @save_file = @savedialog.getSaveFileName(self, "Save", Qt::Dir::homePath, "HTML Document(*.html);;All files(*)") 
     puts @save_file
+    @current_file = @save_file
     
     unless @save_file.nil?   
       File.open(@save_file, 'w') { |file| file.write(@ui.plainTextEdit.toPlainText) }
@@ -115,15 +128,24 @@ class Start < Qt::MainWindow
       puts "file #{@save_file} saved"
     end    
   end
+
+  ## TOOLS SUBMENU SLOTS
+  def open_in_browser
+    puts 'triggered open_in_browser'
+    ## Bug here!!!
+   # @desktop = Qt::DesktopServices.new
+   # @desktop.openUrl("http://www.yandex.ua")
+    #system("xdg-open http://url.com") 
+  end 
   
-  def toggle_statusbar(bool)
-    @ui.statusbar.setVisible(bool)
+  def local_preview
+    puts 'triggered local_preview'
+    puts "try to open #{@open_file}"
+    @web_page = Local_Preview.new(@current_file)
+    @web_page.exec
   end
   
-  def toggle_toolbar(bool)
-    @ui.toolBar.setVisible(bool)
-  end
-  
+  ## INSERT SUBMENU SLOTS
   def insert_bold
     puts 'inserted bold tag' 
 
@@ -201,6 +223,21 @@ class Start < Qt::MainWindow
     @ui.plainTextEdit.setTextCursor(cursor)
   end
   
+  ## VIEW SUBMENU SLOTS
+  def toggle_statusbar(bool)
+    @ui.statusbar.setVisible(bool)
+  end
+  
+  def toggle_toolbar(bool)
+    @ui.toolBar.setVisible(bool)
+  end
+
+  ## HELP SUBMENU SLOTS
+  def about_program
+  
+  end
+  
+  ## GENERAL SLOTS
   def modify_tab
     puts 'triggered modify_tab'
 #     @ui.tabWidget.currentTabText += '*'
@@ -213,13 +250,20 @@ class Start < Qt::MainWindow
   
   def remove_tab(int)
     @ui.tabWidget.removeTab(int)
+    if @ui.tabWidget.count < 1
+      @ui.toolbar_save_file.setEnabled(false) 
+      @ui.no_file_widget.setVisible(true)
+      @ui.tabWidget.setVisible(false)
+      @no_file = NoFileOpen.new(self)
+      @no_file.show
+    end
     puts "deleted tab ##{int}"
   end
   
   def update_line_count
     line_count = Qt::Label.new("Line: " + (@ui.plainTextEdit.textCursor.blockNumber+1).to_s) 
-    @ui.statusbar.removeWidget(line_count)
-    @ui.statusbar.addWidget(line_count)   
+#    @ui.statusbar.removeWidget(line_count)
+#    @ui.statusbar.addWidget(line_count)   
   end
 end
 
