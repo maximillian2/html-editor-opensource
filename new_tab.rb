@@ -1,12 +1,14 @@
-class New_Tab < Qt::Widget
+class New_Tab < Qt::Dialog
   def initialize(parent = nil, open_file)
     super(parent)
     
-    label = Qt::Label.new("hello")
-    plainEdit = Qt::PlainTextEdit.new
-    plainEdit.setPlainText(File.new(open_file).read)
+    @plainEdit = Qt::PlainTextEdit.new
+    unless open_file.nil?
+      @plainEdit.setPlainText(File.new(open_file).read)
+    end
+    
     self.layout = Qt::VBoxLayout.new do |m|
-      m.addWidget(plainEdit)
+        m.addWidget(@plainEdit)
     end
   end
 end
