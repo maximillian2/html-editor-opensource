@@ -20,7 +20,7 @@ class Start < Qt::MainWindow
   slots 'about_program()'
   
   ## General slots
-  slots 'remove_tab(int)', 'update_line_count()'
+  slots 'remove_tab(int)', 'update_line_count()', 'update_connects(int)'
       
   def initialize(parent = nil)
     super
@@ -33,18 +33,13 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.menu_show_toolbar, SIGNAL('toggled(bool)'), self, SLOT('toggle_toolbar(bool)'))
     Qt::Object.connect(@ui.menu_show_statusbar, SIGNAL('toggled(bool)'), self, SLOT('toggle_statusbar(bool)'))
     Qt::Object.connect(@ui.menu_open_file, SIGNAL('activated()'), self, SLOT('open_file()'))
-    Qt::Object.connect(@ui.menu_bold, SIGNAL('activated()'), self, SLOT('insert_bold()'))
-    Qt::Object.connect(@ui.menu_italic, SIGNAL('activated()'), self, SLOT('insert_italic()'))
-    Qt::Object.connect(@ui.menu_underline, SIGNAL('activated()'), self, SLOT('insert_underline()'))
-    Qt::Object.connect(@ui.menu_image, SIGNAL('activated()'), self, SLOT('insert_image()'))
-    Qt::Object.connect(@ui.menu_hyperlink, SIGNAL('activated()'), self, SLOT('insert_link()'))
-    Qt::Object.connect(@ui.menu_unordered, SIGNAL('activated()'), self, SLOT('insert_unordered_list()'))
-    Qt::Object.connect(@ui.menu_ordered, SIGNAL('activated()'), self, SLOT('insert_ordered_list()'))
-#    Qt::Object.connect(@ui.menu_copy, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('copy()'))
-#    Qt::Object.connect(@ui.menu_cut, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('cut()'))
-#    Qt::Object.connect(@ui.menu_paste, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('paste()'))
-#    Qt::Object.connect(@ui.menu_undo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('undo()'))
-#    Qt::Object.connect(@ui.menu_redo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('redo()'))
+    Qt::Object.connect(@ui.menu_bold, SIGNAL('activated()'), @ui.tabWidget.currentWidget, SLOT('bold()'))
+#    Qt::Object.connect(@ui.menu_italic, SIGNAL('activated()'), self, SLOT('insert_italic()'))
+#    Qt::Object.connect(@ui.menu_underline, SIGNAL('activated()'), self, SLOT('insert_underline()'))
+#    Qt::Object.connect(@ui.menu_image, SIGNAL('activated()'), self, SLOT('insert_image()'))
+ #   Qt::Object.connect(@ui.menu_hyperlink, SIGNAL('activated()'), self, SLOT('insert_link()'))
+  #  Qt::Object.connect(@ui.menu_unordered, SIGNAL('activated()'), self, SLOT('insert_unordered_list()'))
+  #  Qt::Object.connect(@ui.menu_ordered, SIGNAL('activated()'), self, SLOT('insert_ordered_list()'))
     Qt::Object.connect(@ui.menu_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))    
     Qt::Object.connect(@ui.menu_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))    
     Qt::Object.connect(@ui.menu_new_file, SIGNAL('activated()'), self, SLOT('new_file()'))
@@ -53,34 +48,30 @@ class Start < Qt::MainWindow
     ## Connecting toolbar items 
     Qt::Object.connect(@ui.toolbar_run, SIGNAL('activated()'), self, SLOT('local_preview()'))
     Qt::Object.connect(@ui.toolbar_open_file, SIGNAL('activated()'), self, SLOT('open_file()'))
-    Qt::Object.connect(@ui.toolbar_bold, SIGNAL('activated()'), self, SLOT('insert_bold()'))
-    Qt::Object.connect(@ui.toolbar_italic, SIGNAL('activated()'), self, SLOT('insert_italic()'))
-    Qt::Object.connect(@ui.toolbar_underline, SIGNAL('activated()'), self, SLOT('insert_underline()'))
-    Qt::Object.connect(@ui.toolbar_image, SIGNAL('activated()'), self, SLOT('insert_image()'))
-    Qt::Object.connect(@ui.toolbar_hyperlink, SIGNAL('activated()'), self, SLOT('insert_link()'))
-#    Qt::Object.connect(@ui.toolbar_copy, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('copy()'))
-#    Qt::Object.connect(@ui.toolbar_cut, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('cut()'))
-#    Qt::Object.connect(@ui.toolbar_paste, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('paste()'))
-#    Qt::Object.connect(@ui.toolbar_undo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('undo()'))
-#    Qt::Object.connect(@ui.toolbar_redo, SIGNAL('activated()'), @ui.plainTextEdit, SLOT('redo()'))
+    Qt::Object.connect(@ui.toolbar_bold, SIGNAL('activated()'), @ui.tabWidget.currentWidget, SLOT('bold()'))
+  #  Qt::Object.connect(@ui.toolbar_italic, SIGNAL('activated()'), self, SLOT('insert_italic()'))
+ #   Qt::Object.connect(@ui.toolbar_underline, SIGNAL('activated()'), self, SLOT('insert_underline()'))
+ #   Qt::Object.connect(@ui.toolbar_image, SIGNAL('activated()'), self, SLOT('insert_image()'))
+  #  Qt::Object.connect(@ui.toolbar_hyperlink, SIGNAL('activated()'), self, SLOT('insert_link()'))
     Qt::Object.connect(@ui.toolbar_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))
     Qt::Object.connect(@ui.toolbar_new_file, SIGNAL('activated()'), self, SLOT('new_file()'))
     
     ## Connecting widget with command link buttons
     Qt::Object.connect(@ui.new_file_linkbutton, SIGNAL('clicked()'), self, SLOT('new_file()'))
     Qt::Object.connect(@ui.open_file_linkbutton, SIGNAL('clicked()'), self, SLOT('open_file()'))
-     
-    
+         
     ## Set default behaviour
     @ui.no_file_widget.setVisible(true)
     @ui.tabWidget.setVisible(false) 
     @current_file = ''  
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true) 
+    # FIXME
 #    @ui.plainTextEdit.setTabStopWidth(20)   ## tab width
 #    @ui.plainTextEdit.setFocus
     Qt::Object.connect(@ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self, SLOT('remove_tab(int)'))
 #    Qt::Object.connect(@ui.plainTextEdit, SIGNAL('cursorPositionChanged()'), self, SLOT('update_line_count()'))
+    Qt::Object.connect(@ui.tabWidget, SIGNAL('currentChanged(int)'), self, SLOT('update_connects(int)'))
   end
   
   ## FILE SUBMENU SLOTS
@@ -88,7 +79,8 @@ class Start < Qt::MainWindow
     puts 'triggered new_file'
     @ui.tabWidget.setVisible(true)
     @ui.no_file_widget.setVisible(false)
-    @ui.tabWidget.addTab(New_Tab.new(self, nil), "*unititled")
+
+    @ui.tabWidget.addTab(New_Tab.new(self, nil), "*untitled")
     @ui.toolbar_save_file.setEnabled(true) if @ui.tabWidget.count > 0
   end
   
@@ -99,13 +91,11 @@ class Start < Qt::MainWindow
 
     @filedialog = Qt::FileDialog
     @open_file = @filedialog.getOpenFileName(self, "Open file", Qt::Dir::homePath, "HTML Document(*.html);;All files(*)")
+    ## FIXME
     @current_file = @filedialog
     
-    puts 'got file name'
     unless @open_file.nil?
-        puts 'open_file is not nil'
        @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file), File.basename(@open_file))
-       puts 'inserted tab'
        @ui.tabWidget.setCurrentIndex(@ui.tabWidget.count-1)
     end
   end
@@ -120,7 +110,7 @@ class Start < Qt::MainWindow
     @current_file = @save_file
     
     unless @save_file.nil?   
-      File.open(@save_file, 'w') { |file| file.write(@ui.plainTextEdit.toPlainText) }
+#      File.open(@save_file, 'w') { |file| file.write(@ui.plainTextEdit.toPlainText) }
   #    puts @ui.tabWidget.currentWidget
 #      @ui.tabWidget.widget(@ui.tabWidget.currentIndex).setModified(false)
       
@@ -146,15 +136,17 @@ class Start < Qt::MainWindow
   end
   
   ## INSERT SUBMENU SLOTS
+  ## TODO: change plainTextEdit to tabWidget.currentWidget 
   def insert_bold
     puts 'inserted bold tag' 
 
-    @ui.plainTextEdit.moveCursor(Qt::TextCursor::End)        
-    @ui.plainTextEdit.insertPlainText("<b></b>")
-    cursor = @ui.plainTextEdit.textCursor 
+    #@ui.tabWidget.currentWidget.
+    @ui.tabWidget.currentWidget.plainTextEdit.moveCursor(Qt::TextCursor::End)        
+    @ui.tabWidget.currentWidget.plainTextEdit.insertPlainText("<b></b>")
+    cursor = @ui.tabWidget.currentWidget.plainTextEdit.textCursor 
     pos = cursor.position
     cursor.setPosition(pos-4)
-    @ui.plainTextEdit.setTextCursor(cursor)
+    @ui.tabWidget.currentWidget.plainTextEdit.setTextCursor(cursor)
   end
   
   def insert_italic
@@ -260,11 +252,27 @@ class Start < Qt::MainWindow
     puts "deleted tab ##{int}"
   end
   
+  #TODO: here too
   def update_line_count
     line_count = Qt::Label.new("Line: " + (@ui.plainTextEdit.textCursor.blockNumber+1).to_s) 
 #    @ui.statusbar.removeWidget(line_count)
 #    @ui.statusbar.addWidget(line_count)   
   end
+  
+  def update_connects(int)
+    ## Menu connects
+    Qt::Object.connect(@ui.menu_copy, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('copy_text()'))
+    Qt::Object.connect(@ui.menu_cut, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('cut_text()'))
+    Qt::Object.connect(@ui.menu_paste, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('paste_text()'))
+    Qt::Object.connect(@ui.menu_undo, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('undo_text()'))
+    Qt::Object.connect(@ui.menu_redo, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('redo_text()'))
+    ## Toolbar connects
+    Qt::Object.connect(@ui.toolbar_copy, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('copy_text()'))
+    Qt::Object.connect(@ui.toolbar_cut, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('cut_text()'))
+    Qt::Object.connect(@ui.toolbar_paste, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('paste_text()'))
+    Qt::Object.connect(@ui.toolbar_undo, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('undo_text()'))
+    Qt::Object.connect(@ui.toolbar_redo, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('redo_text()'))
+  end 
 end
 
 if $0 == __FILE__
