@@ -47,6 +47,7 @@ class Start < Qt::MainWindow
     ## Set default behaviour
     @ui.no_file_widget.setVisible(true)
     @ui.tabWidget.setVisible(false)
+    @ui.toolbar_save_file.setEnabled(false)
     @current_file = ''
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true)
@@ -75,6 +76,7 @@ class Start < Qt::MainWindow
   end
 
   def open_file
+    ## when cancel this dialog, then nothing shows up
     puts 'triggered open_file'
     @ui.tabWidget.setVisible(true)
     @ui.no_file_widget.setVisible(false)
