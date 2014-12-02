@@ -48,9 +48,9 @@ class Start < Qt::MainWindow
     @ui.no_file_widget.setVisible(true)
     @ui.tabWidget.setVisible(false)
     @ui.toolbar_save_file.setEnabled(false)
-    @current_file = ''
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true)
+    @current_file = ''
     
     @line_label = Qt::Label.new("Line: 1")    
     @column_label = Qt::Label.new("Column: 1")    
