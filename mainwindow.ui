@@ -192,7 +192,8 @@
    <addaction name="toolbar_bold"/>
    <addaction name="toolbar_italic"/>
    <addaction name="toolbar_underline"/>
-   <addaction name="toolbar_list"/>
+   <addaction name="toolbar_olist"/>
+   <addaction name="toolbar_ulist"/>
    <addaction name="toolbar_image"/>
    <addaction name="toolbar_hyperlink"/>
    <addaction name="separator"/>
@@ -450,18 +451,6 @@
     <string>Underline</string>
    </property>
   </action>
-  <action name="toolbar_list">
-   <property name="icon">
-    <iconset>
-     <normaloff>toolbar/list_bullets_black.png</normaloff>toolbar/list_bullets_black.png</iconset>
-   </property>
-   <property name="text">
-    <string>list</string>
-   </property>
-   <property name="toolTip">
-    <string>List</string>
-   </property>
-  </action>
   <action name="toolbar_image">
    <property name="icon">
     <iconset>
@@ -564,6 +553,30 @@
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="toolbar_olist">
+   <property name="icon">
+    <iconset resource="toolbar.qrc">
+     <normaloff>:/toolbar/olist.png</normaloff>:/toolbar/olist.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ordered List</string>
+   </property>
+   <property name="toolTip">
+    <string>Ordered List</string>
+   </property>
+  </action>
+  <action name="toolbar_ulist">
+   <property name="icon">
+    <iconset resource="toolbar.qrc">
+     <normaloff>:/toolbar/ulist.png</normaloff>:/toolbar/ulist.png</iconset>
+   </property>
+   <property name="text">
+    <string>Unordered List</string>
+   </property>
+   <property name="toolTip">
+    <string>Unordered List</string>
    </property>
   </action>
  </widget>
