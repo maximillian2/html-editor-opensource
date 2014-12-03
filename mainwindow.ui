@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PES</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -93,7 +93,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="menu_new_file"/>
     <addaction name="menu_open_file"/>
@@ -104,7 +104,7 @@
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="menu_copy"/>
     <addaction name="menu_cut"/>
@@ -117,21 +117,21 @@
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Tools</string>
+     <string>&amp;Tools</string>
     </property>
     <addaction name="menu_preview"/>
     <addaction name="menu_browser_preview"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="menu_about_qt"/>
     <addaction name="menu_about_program"/>
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">
-     <string>Insert</string>
+     <string>&amp;Insert</string>
     </property>
     <widget class="QMenu" name="list_submenu">
      <property name="title">
@@ -149,7 +149,7 @@
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>View</string>
+     <string>&amp;View</string>
     </property>
     <addaction name="menu_show_toolbar"/>
     <addaction name="menu_show_statusbar"/>
@@ -186,8 +186,8 @@
    <addaction name="toolbar_bold"/>
    <addaction name="toolbar_italic"/>
    <addaction name="toolbar_underline"/>
-   <addaction name="toolbar_olist"/>
    <addaction name="toolbar_ulist"/>
+   <addaction name="toolbar_olist"/>
    <addaction name="toolbar_image"/>
    <addaction name="toolbar_hyperlink"/>
    <addaction name="separator"/>
@@ -304,7 +304,7 @@
   <action name="toolbar_new_file">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/document.png</normaloff>toolbar/document.png</iconset>
+     <normaloff>images/toolbar/document.png</normaloff>images/toolbar/document.png</iconset>
    </property>
    <property name="text">
     <string>new_file</string>
@@ -316,7 +316,7 @@
   <action name="toolbar_open_file">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/folder.png</normaloff>toolbar/folder.png</iconset>
+     <normaloff>images/toolbar/folder.png</normaloff>images/toolbar/folder.png</iconset>
    </property>
    <property name="text">
     <string>open_file</string>
@@ -328,7 +328,7 @@
   <action name="toolbar_save_file">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/save.png</normaloff>toolbar/save.png</iconset>
+     <normaloff>images/toolbar/save.png</normaloff>images/toolbar/save.png</iconset>
    </property>
    <property name="text">
     <string>save_file</string>
@@ -340,7 +340,7 @@
   <action name="toolbar_run">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/wheels.png</normaloff>toolbar/wheels.png</iconset>
+     <normaloff>images/toolbar/wheels.png</normaloff>images/toolbar/wheels.png</iconset>
    </property>
    <property name="text">
     <string>run</string>
@@ -352,7 +352,7 @@
   <action name="toolbar_undo">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/undo.png</normaloff>toolbar/undo.png</iconset>
+     <normaloff>images/toolbar/undo.png</normaloff>images/toolbar/undo.png</iconset>
    </property>
    <property name="text">
     <string>undo</string>
@@ -364,7 +364,7 @@
   <action name="toolbar_redo">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/redo.png</normaloff>toolbar/redo.png</iconset>
+     <normaloff>images/toolbar/redo.png</normaloff>images/toolbar/redo.png</iconset>
    </property>
    <property name="text">
     <string>redo</string>
@@ -376,7 +376,7 @@
   <action name="toolbar_cut">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/cut.png</normaloff>toolbar/cut.png</iconset>
+     <normaloff>images/toolbar/cut.png</normaloff>images/toolbar/cut.png</iconset>
    </property>
    <property name="text">
     <string>cut</string>
@@ -388,7 +388,7 @@
   <action name="toolbar_copy">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/copy.png</normaloff>toolbar/copy.png</iconset>
+     <normaloff>images/toolbar/copy.png</normaloff>images/toolbar/copy.png</iconset>
    </property>
    <property name="text">
     <string>copy</string>
@@ -400,7 +400,7 @@
   <action name="toolbar_paste">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/paste.png</normaloff>toolbar/paste.png</iconset>
+     <normaloff>images/toolbar/paste.png</normaloff>images/toolbar/paste.png</iconset>
    </property>
    <property name="text">
     <string>paste</string>
@@ -412,7 +412,7 @@
   <action name="toolbar_bold">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/font_bold (1).png</normaloff>toolbar/font_bold (1).png</iconset>
+     <normaloff>images/toolbar/font_bold.png</normaloff>images/toolbar/font_bold.png</iconset>
    </property>
    <property name="text">
     <string>bold</string>
@@ -424,7 +424,7 @@
   <action name="toolbar_italic">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/font_italic.png</normaloff>toolbar/font_italic.png</iconset>
+     <normaloff>images/toolbar/font_italic.png</normaloff>images/toolbar/font_italic.png</iconset>
    </property>
    <property name="text">
     <string>italic</string>
@@ -436,7 +436,7 @@
   <action name="toolbar_underline">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/font_underline (1).png</normaloff>toolbar/font_underline (1).png</iconset>
+     <normaloff>images/toolbar/font_underline.png</normaloff>images/toolbar/font_underline.png</iconset>
    </property>
    <property name="text">
     <string>underline</string>
@@ -448,7 +448,7 @@
   <action name="toolbar_image">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/image 1.png</normaloff>toolbar/image 1.png</iconset>
+     <normaloff>images/toolbar/image 1.png</normaloff>images/toolbar/image 1.png</iconset>
    </property>
    <property name="text">
     <string>image</string>
@@ -460,7 +460,7 @@
   <action name="toolbar_hyperlink">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/link.png</normaloff>toolbar/link.png</iconset>
+     <normaloff>images/toolbar/link.png</normaloff>images/toolbar/link.png</iconset>
    </property>
    <property name="text">
     <string>hyperlink</string>
@@ -472,7 +472,7 @@
   <action name="toolbar_settings">
    <property name="icon">
     <iconset>
-     <normaloff>toolbar/setting.png</normaloff>toolbar/setting.png</iconset>
+     <normaloff>images/toolbar/setting.png</normaloff>images/toolbar/setting.png</iconset>
    </property>
    <property name="text">
     <string>settings</string>
@@ -552,10 +552,10 @@
   <action name="toolbar_olist">
    <property name="icon">
     <iconset resource="toolbar.qrc">
-     <normaloff>:/toolbar/olist.png</normaloff>:/toolbar/olist.png</iconset>
+     <normaloff>:/images/toolbar/olist.png</normaloff>:/images/toolbar/olist.png</iconset>
    </property>
    <property name="text">
-    <string>Ordered List</string>
+    <string>olist</string>
    </property>
    <property name="toolTip">
     <string>Ordered List</string>
@@ -564,10 +564,10 @@
   <action name="toolbar_ulist">
    <property name="icon">
     <iconset resource="toolbar.qrc">
-     <normaloff>:/toolbar/ulist.png</normaloff>:/toolbar/ulist.png</iconset>
+     <normaloff>:/images/toolbar/ulist.png</normaloff>:/images/toolbar/ulist.png</iconset>
    </property>
    <property name="text">
-    <string>Unordered List</string>
+    <string>ulist</string>
    </property>
    <property name="toolTip">
     <string>Unordered List</string>

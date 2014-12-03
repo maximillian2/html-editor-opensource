@@ -4,6 +4,7 @@ require_relative 'webpage_ui'
 require_relative 'new_tab'
 require_relative 'local_preview'
 require_relative 'no_file_open'
+require_relative 'about_program'
 
 class Start < Qt::MainWindow
   ## File submenu slots
@@ -51,6 +52,7 @@ class Start < Qt::MainWindow
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true)
     @current_file = ''
+
     
     @line_label = Qt::Label.new("Line: 1")    
     @column_label = Qt::Label.new("Column: 1")    
@@ -73,6 +75,7 @@ class Start < Qt::MainWindow
     @ui.toolbar_save_file.setEnabled(true) if @ui.tabWidget.count > 0
 
     @ui.tabWidget.setCurrentIndex(new_tab_index)
+    @ui.tabWidget.widget(new_tab_index).setFocus
   end
 
   def open_file
@@ -85,7 +88,9 @@ class Start < Qt::MainWindow
     @open_file = @filedialog.getOpenFileName(self, "Open file", Qt::Dir::homePath, "HTML Document(*.html);;All files(*)")
     @current_file = @open_file
 ## dilemma
-    unless @open_file.nil?
+    if @current_file.nil? && @ui.tabWidget.count < 1
+      remove_tab(0)
+    else
 #       for i in @ui.tabWidget.count
 #        if (File.basename(@open_file) == @ui.tabWidget.tabText(i))
 #          @ui.tabWidget.setCurrentIndex(i)
@@ -94,6 +99,8 @@ class Start < Qt::MainWindow
 #       end
        @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file), File.basename(@open_file))
        @ui.tabWidget.setCurrentIndex(@ui.tabWidget.count-1)
+       @ui.tabWidget.widget(@ui.tabWidget.count-1).setFocus
+
        @ui.statusbar.showMessage("File loaded.", 2000)
     end
   end
@@ -130,7 +137,6 @@ class Start < Qt::MainWindow
 
   def local_preview
     puts 'triggered local_preview'
-    puts "try to open #{@open_file}"
     @web_page = Local_Preview.new(@current_file)
     @web_page.exec
   end
@@ -145,9 +151,11 @@ class Start < Qt::MainWindow
   end
 
   ## HELP SUBMENU SLOTS
-  # def about_program
-
-  # end
+  def about_program
+    puts 'triggered about_program'
+    @about = About_Program.new(self)
+    @about.exec
+  end
 
   ## GENERAL SLOTS
   def enable_save
@@ -205,11 +213,11 @@ class Start < Qt::MainWindow
 
     Qt::Object.connect(@ui.tabWidget.widget(int), SIGNAL('cursorPositionChanged()'), self, SLOT('update_line_count()'))
     Qt::Object.connect(@ui.tabWidget.widget(int).document, SIGNAL('contentsChanged()'), self, SLOT('enable_save()')) unless @ui.tabWidget.widget(int).nil?
-
+    @ui.tabWidget.widget(int).setFocus unless int < 0
 
     @line_label.setText("Line: 1")
     @column_label.setText("Column: 1")
-#    Qt::Object.connect(@ui.tabWidget, SIGNAL('currentChanged(int)'), @ui.tabWidget.widget(int), SLOT('focus_current(int)'))
+   Qt::Object.connect(@ui.tabWidget, SIGNAL('currentChanged(int)'), @ui.tabWidget.widget(int), SLOT('focus_current(int)'))
   end
 end
 

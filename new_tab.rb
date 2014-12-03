@@ -6,6 +6,7 @@ class New_Tab < Qt::PlainTextEdit
   slots 'bold()', 'italic()', 'underline()', 'link()', 'image()', 'ulist()', 'olist()' 
   ## General
   # slots 'current_cursor(cursor)'
+  slots 'focus_current(int)'
 
   
   def initialize(parent = nil, open_file)
@@ -80,5 +81,5 @@ class New_Tab < Qt::PlainTextEdit
   #   puts "Current block: #{cursor.position}"
   # end
 
-# #  def focus_current(int); puts 'catcha!'; @plainEdit.setFocus; end
+  def focus_current(int); self.setFocus; end
 end

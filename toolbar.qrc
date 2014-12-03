@@ -1,25 +1,27 @@
 <RCC>
   <qresource prefix="/">
-    <file>toolbar/copy.png</file>
-    <file>toolbar/olist.png</file>
-    <file>toolbar/ulist.png</file>
-    <file>toolbar/cut.png</file>
-    <file>toolbar/document.png</file>
-    <file>toolbar/folder.png</file>
-    <file>toolbar/font_bold.png</file>
-    <file>toolbar/font_bold (1).png</file>
-    <file>toolbar/font_italic.png</file>
-    <file>toolbar/font_underline.png</file>
-    <file>toolbar/font_underline (1).png</file>
-    <file>toolbar/image 1.png</file>
-    <file>toolbar/link.png</file>
-    <file>toolbar/list_bullets_black.png</file>
-    <file>toolbar/paste.png</file>
-    <file>toolbar/redo.png</file>
-    <file>toolbar/save.png</file>
-    <file>toolbar/setting.png</file>
-    <file>toolbar/undo.png</file>
-    <file>toolbar/wheels.png</file>
-    <file>toolbar/wrench.png</file>
+    <file>images/logo.png</file>
+    <file>images/toolbar/copy.png</file>
+    <file>images/toolbar/cut.png</file>
+    <file>images/toolbar/document.png</file>
+    <file>images/toolbar/folder.png</file>
+    <file>images/toolbar/font_bold.png</file>
+    <file>images/toolbar/font_bold (1).png</file>
+    <file>images/toolbar/font_italic.png</file>
+    <file>images/toolbar/font_underline.png</file>
+    <file>images/toolbar/font_underline (1).png</file>
+    <file>images/toolbar/image 1.png</file>
+    <file>images/toolbar/link.png</file>
+    <file>images/toolbar/list_bullets_black.png</file>
+    <file>images/toolbar/olist.png</file>
+    <file>images/toolbar/paste.png</file>
+    <file>images/toolbar/redo.png</file>
+    <file>images/toolbar/save.png</file>
+    <file>images/toolbar/setting.png</file>
+    <file>images/toolbar/ulist.png</file>
+    <file>images/toolbar/undo.png</file>
+    <file>images/toolbar/wheels.png</file>
+    <file>images/toolbar/wrench.png</file>
+    <file>images/pineapple-logo.jpeg</file>
   </qresource>
 </RCC>
