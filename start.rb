@@ -139,6 +139,7 @@ class Start < Qt::MainWindow
     puts 'triggered local_preview'
     save_file()
     @web_page = Local_Preview.new(self, @current_file)
+    @web_page.show
   end
 
   ## VIEW SUBMENU SLOTS
