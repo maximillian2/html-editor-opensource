@@ -137,8 +137,8 @@ class Start < Qt::MainWindow
 
   def local_preview
     puts 'triggered local_preview'
-    @web_page = Local_Preview.new(@current_file)
-    @web_page.exec
+    save_file()
+    @web_page = Local_Preview.new(self, @current_file)
   end
 
   ## VIEW SUBMENU SLOTS
@@ -152,9 +152,10 @@ class Start < Qt::MainWindow
 
   ## HELP SUBMENU SLOTS
   def about_program
-    puts 'triggered about_program'
-    @about = About_Program.new(self)
-    @about.exec
+    # TODO: me
+    # puts 'triggered about_program'
+    # @about = About_Program.new(self)
+    # @about.show
   end
 
   ## GENERAL SLOTS

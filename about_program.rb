@@ -1,15 +1,14 @@
 class About_Program < Qt::Dialog
 	def initialize(parent = nil)
 		super(parent)
-		@logo = Qt::Label.new(self)
-		# @image = Qt::Image.new(":/images/logo.png")
-		# puts @image.nil?
-		# @logo.setText("wow")
-		@pix = Qt::Pixmap.new(":/images/logo.png")
-		@logo.setPixmap(@pix)
-		# @vert = Qt::VBoxLayout.new(self)
-		# @vert.addWidget(@logo)
-
-		# self.setLayout(@vert)
+		@horizontal = Qt::HBoxLayout.new
+		@logo = Qt::Label.new
+		@logo.pixmap = Qt::Pixmap.new("/home/maxi/html-editor-opensource/images/logo.png")
+		@horizontal.addWidget(@logo)
+		show
 	end
+
+	# def show
+	# 	@logo.show
+	# end
 end

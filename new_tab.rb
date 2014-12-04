@@ -5,7 +5,6 @@ class New_Tab < Qt::PlainTextEdit
   ## Insert slots
   slots 'bold()', 'italic()', 'underline()', 'link()', 'image()', 'ulist()', 'olist()' 
   ## General
-  # slots 'current_cursor(cursor)'
   slots 'focus_current(int)'
 
   
@@ -17,8 +16,6 @@ class New_Tab < Qt::PlainTextEdit
     end
     
     setTabStopWidth(20)
-
-    # Qt::Object.connect(self.document, SIGNAL('cursorPositionChanged(const QTextCursor &)'), self, SLOT('current_cursor(cursor)'))
   end
  
   def bold
@@ -77,9 +74,5 @@ class New_Tab < Qt::PlainTextEdit
     self.setTextCursor(cursor)
   end
   
-  # def current_cursor(cursor)
-  #   puts "Current block: #{cursor.position}"
-  # end
-
   def focus_current(int); self.setFocus; end
 end
