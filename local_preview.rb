@@ -14,7 +14,6 @@ end
 class Local_Preview < Qt::Dialog
   def initialize(parent = nil, input)
     super(parent)    
-    # setModal(true)
     setWindowTitle("Previewing #{input}...")
 
     @vert = Qt::VBoxLayout.new

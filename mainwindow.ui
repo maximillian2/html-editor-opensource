@@ -550,11 +550,17 @@
    </property>
   </action>
   <action name="toolbar_olist">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="toolbar.qrc">
-     <normaloff>:/images/toolbar/olist.png</normaloff>:/images/toolbar/olist.png</iconset>
+    <iconset>
+     <normaloff>images/toolbar/olist.png</normaloff>images/toolbar/olist.png</iconset>
    </property>
    <property name="text">
+    <string>olist</string>
+   </property>
+   <property name="iconText">
     <string>olist</string>
    </property>
    <property name="toolTip">
@@ -563,8 +569,8 @@
   </action>
   <action name="toolbar_ulist">
    <property name="icon">
-    <iconset resource="toolbar.qrc">
-     <normaloff>:/images/toolbar/ulist.png</normaloff>:/images/toolbar/ulist.png</iconset>
+    <iconset>
+     <normaloff>images/toolbar/ulist.png</normaloff>images/toolbar/ulist.png</iconset>
    </property>
    <property name="text">
     <string>ulist</string>
