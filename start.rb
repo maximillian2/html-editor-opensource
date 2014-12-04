@@ -5,6 +5,7 @@ require_relative 'new_tab'
 require_relative 'local_preview'
 require_relative 'no_file_open'
 require_relative 'about_program'
+require_relative 'html_highlight'
 
 class Start < Qt::MainWindow
   ## File submenu slots
@@ -14,7 +15,7 @@ class Start < Qt::MainWindow
   ## View submenu slots
   slots 'toggle_statusbar(bool)', 'toggle_toolbar(bool)'
   ## Help submenu slot
-  slots 'about_program()'
+  slots 'about_program()', 'about_qt()'
 
   ## General slots
   slots 'remove_tab(int)', 'update_line_count()', 'update_connects(int)', 'enable_save()'
@@ -34,6 +35,7 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.menu_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))
     Qt::Object.connect(@ui.menu_new_file, SIGNAL('activated()'), self, SLOT('new_file()'))
     Qt::Object.connect(@ui.menu_about_program, SIGNAL('activated()'), self, SLOT('about_program()'))
+    Qt::Object.connect(@ui.menu_about_qt, SIGNAL('activated()'), self, SLOT('about_qt()'))
 
     ## Connecting toolbar items
     Qt::Object.connect(@ui.toolbar_run, SIGNAL('activated()'), self, SLOT('local_preview()'))
@@ -49,6 +51,7 @@ class Start < Qt::MainWindow
     @ui.no_file_widget.setVisible(true)
     @ui.tabWidget.setVisible(false)
     @ui.toolbar_save_file.setEnabled(false)
+    @ui.toolbar_run.setEnabled(false)
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true)
     @current_file = ''
@@ -72,7 +75,10 @@ class Start < Qt::MainWindow
     @ui.no_file_widget.setVisible(false)
 
     new_tab_index = @ui.tabWidget.addTab(New_Tab.new(self, nil), "untitled")
-    @ui.toolbar_save_file.setEnabled(true) if @ui.tabWidget.count > 0
+    if @ui.tabWidget.count > 0
+      @ui.toolbar_save_file.setEnabled(true)
+      @ui.toolbar_run.setEnabled(true)
+    end
 
     @ui.tabWidget.setCurrentIndex(new_tab_index)
     @ui.tabWidget.widget(new_tab_index).setFocus
@@ -152,11 +158,14 @@ class Start < Qt::MainWindow
   end
 
   ## HELP SUBMENU SLOTS
+  def about_qt
+    Qt::MessageBox::aboutQt(self)
+  end
+
   def about_program
-    # TODO: me
-    # puts 'triggered about_program'
-    # @about = About_Program.new(self)
-    # @about.show
+    puts 'triggered about_program'
+    @about = About_Program.new(self)
+    @about.show
   end
 
   ## GENERAL SLOTS
@@ -168,6 +177,7 @@ class Start < Qt::MainWindow
     @ui.tabWidget.removeTab(int)
     if @ui.tabWidget.count < 1
       @ui.toolbar_save_file.setEnabled(false)
+      @ui.toolbar_run.setEnabled(false)
       @ui.no_file_widget.setVisible(true)
       @ui.tabWidget.setVisible(false)
       @no_file = NoFileOpen.new(self)
@@ -214,12 +224,17 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.toolbar_olist, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('olist()'))
 
     Qt::Object.connect(@ui.tabWidget.widget(int), SIGNAL('cursorPositionChanged()'), self, SLOT('update_line_count()'))
-    Qt::Object.connect(@ui.tabWidget.widget(int).document, SIGNAL('contentsChanged()'), self, SLOT('enable_save()')) unless @ui.tabWidget.widget(int).nil?
+    Qt::Object.connect(@ui.tabWidget, SIGNAL('currentChanged(int)'), @ui.tabWidget.widget(int), SLOT('focus_current(int)'))
+
+    unless @ui.tabWidget.widget(int).nil?
+      Qt::Object.connect(@ui.tabWidget.widget(int).document, SIGNAL('contentsChanged()'), self, SLOT('enable_save()'))
+      @highlighter = HTML_Highlighter.new(@ui.tabWidget.widget(int).document)  
+    end 
+
     @ui.tabWidget.widget(int).setFocus unless int < 0
 
     @line_label.setText("Line: 1")
     @column_label.setText("Column: 1")
-   Qt::Object.connect(@ui.tabWidget, SIGNAL('currentChanged(int)'), @ui.tabWidget.widget(int), SLOT('focus_current(int)'))
   end
 end
 
