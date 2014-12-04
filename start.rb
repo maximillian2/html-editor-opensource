@@ -129,10 +129,10 @@ class Start < Qt::MainWindow
   ## TOOLS SUBMENU SLOTS
   def open_in_browser
     puts 'triggered open_in_browser'
-    ## Bug here!!!
-   # @desktop = Qt::DesktopServices.new
-   # @desktop.openUrl("http://www.yandex.ua")
-    #system("xdg-open http://url.com")
+    save_file
+
+    ## Not cross-platform but solution :/
+    system("xdg-open #{@current_file}")
   end
 
   def local_preview
