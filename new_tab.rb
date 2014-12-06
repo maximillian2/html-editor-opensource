@@ -15,7 +15,12 @@ class New_Tab < Qt::PlainTextEdit
       setPlainText(File.new(open_file).read)
     end
     
+    # @metrics = Qt::FontMetrics.new(Qt::Font.new("Monospace", 10))
+
+
+    # setTabStopWidth(2 * @metrics.width(' '))
     setTabStopWidth(20)
+    # setCursorWidth(20)
   end
  
   def bold

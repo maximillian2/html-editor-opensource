@@ -55,7 +55,6 @@ class Start < Qt::MainWindow
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true)
     @current_file = ''
-
     
     @line_label = Qt::Label.new("Line: 1")    
     @column_label = Qt::Label.new("Column: 1")    
@@ -85,7 +84,7 @@ class Start < Qt::MainWindow
   end
 
   def open_file
-    ## when cancel this dialog, then nothing shows up
+    @file_opened = false
     puts 'triggered open_file'
     @ui.tabWidget.setVisible(true)
     @ui.no_file_widget.setVisible(false)
@@ -93,19 +92,23 @@ class Start < Qt::MainWindow
     @filedialog = Qt::FileDialog
     @open_file = @filedialog.getOpenFileName(self, "Open file", Qt::Dir::homePath, "HTML Document(*.html);;All files(*)")
     @current_file = @open_file
-## dilemma
+
     if @current_file.nil? && @ui.tabWidget.count < 1
       remove_tab(0)
     else
-#       for i in @ui.tabWidget.count
-#        if (File.basename(@open_file) == @ui.tabWidget.tabText(i))
-#          @ui.tabWidget.setCurrentIndex(i)
-#          return
-#        end
-#       end
-       @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file), File.basename(@open_file))
-       @ui.tabWidget.setCurrentIndex(@ui.tabWidget.count-1)
-       @ui.tabWidget.widget(@ui.tabWidget.count-1).setFocus
+      (0..@ui.tabWidget.count).each do |i|
+       if (File.basename(@current_file) == @ui.tabWidget.tabText(i))
+         @ui.tabWidget.setCurrentIndex(i)
+         @file_opened = true
+         return
+       end
+      end
+
+      unless @file_opened
+        @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file), File.basename(@open_file))
+        @ui.tabWidget.setCurrentIndex(@ui.tabWidget.count-1)
+        @ui.tabWidget.widget(@ui.tabWidget.count-1).setFocus
+      end
 
        @ui.statusbar.showMessage("File loaded.", 2000)
     end
