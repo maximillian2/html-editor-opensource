@@ -7,7 +7,7 @@ class About_Program < Qt::Dialog
 		@vertical = Qt::VBoxLayout.new
 		
 		@logo = Qt::Label.new
-		@logo.pixmap = Qt::Pixmap.new("/home/maxi/html-editor-opensource/images/logo.png")
+		@logo.pixmap = Qt::Pixmap.new("images/logo.png")
 		
 		@name = Qt::Label.new("Pineapple Editor openSource")
 		@name.setFont(Qt::Font.new("Arial", 18))
@@ -17,7 +17,7 @@ class About_Program < Qt::Dialog
 		@description.setText("Lightweight Qt-based HTML editor.")
 		@description.setAlignment(Qt::AlignHCenter)
 
-		@copyright = Qt::Label.new#("Copyright (c) 2014 Maksym Tymoshyk")
+		@copyright = Qt::Label.new
 		@copyright.setText("Copyright (c) 2014 <a href=\"https://github.com/maximillian2/\">Maksym Tymoshyk</a>")
 		@copyright.setTextFormat(Qt::RichText)
 		@copyright.setTextInteractionFlags(Qt::TextBrowserInteraction)
@@ -27,7 +27,6 @@ class About_Program < Qt::Dialog
 		@vertical.addWidget(@name)
 		@vertical.addWidget(@description)
 		@vertical.addWidget(@copyright)
-
 
 		@horizontal.addWidget(@logo)
 		@horizontal.addLayout(@vertical)			

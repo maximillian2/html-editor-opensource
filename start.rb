@@ -1,4 +1,5 @@
 require 'Qt4'
+
 require_relative 'mainwindow_ui'
 require_relative 'webpage_ui'
 require_relative 'new_tab'
@@ -6,10 +7,13 @@ require_relative 'local_preview'
 require_relative 'no_file_open'
 require_relative 'about_program'
 require_relative 'html_highlight'
+require_relative 'settings'
 
 class Start < Qt::MainWindow
   ## File submenu slots
   slots 'new_file()', 'open_file()', 'save_file()', 'save_as()'
+  ## Edit submenu
+  slots 'settings()'
   ## Tools submenu slots
   slots 'open_in_browser()', 'local_preview()'
   ## View submenu slots
@@ -28,6 +32,7 @@ class Start < Qt::MainWindow
     ## Connecting menu items
     Qt::Object.connect(@ui.menu_browser_preview, SIGNAL('activated()'), self, SLOT('open_in_browser()'))
     Qt::Object.connect(@ui.menu_preview, SIGNAL('activated()'), self, SLOT('local_preview()'))
+    Qt::Object.connect(@ui.menu_settings, SIGNAL('activated()'), self, SLOT('settings()'))
     Qt::Object.connect(@ui.menu_show_toolbar, SIGNAL('toggled(bool)'), self, SLOT('toggle_toolbar(bool)'))
     Qt::Object.connect(@ui.menu_show_statusbar, SIGNAL('toggled(bool)'), self, SLOT('toggle_statusbar(bool)'))
     Qt::Object.connect(@ui.menu_open_file, SIGNAL('activated()'), self, SLOT('open_file()'))
@@ -42,6 +47,7 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.toolbar_open_file, SIGNAL('activated()'), self, SLOT('open_file()'))
     Qt::Object.connect(@ui.toolbar_save_file, SIGNAL('activated()'), self, SLOT('save_file()'))
     Qt::Object.connect(@ui.toolbar_new_file, SIGNAL('activated()'), self, SLOT('new_file()'))
+    Qt::Object.connect(@ui.toolbar_settings, SIGNAL('activated()'), self, SLOT('settings()'))
 
     ## Connecting command link buttons
     Qt::Object.connect(@ui.new_file_linkbutton, SIGNAL('clicked()'), self, SLOT('new_file()'))
@@ -49,22 +55,24 @@ class Start < Qt::MainWindow
 
     ## Set default behaviour
     @ui.no_file_widget.setVisible(true)
+    @ui.toolBar.setMovable(false)
     @ui.tabWidget.setVisible(false)
     @ui.toolbar_save_file.setEnabled(false)
     @ui.toolbar_run.setEnabled(false)
     @ui.menu_show_toolbar.setChecked(true)
     @ui.menu_show_statusbar.setChecked(true)
     @current_file = ''
+    @@tab_width = 2
+    @tb_pos_int = 0 #=> Top toolbar position
     
-    @line_label = Qt::Label.new("Line: 1")    
-    @column_label = Qt::Label.new("Column: 1")    
+    @line_label = Qt::Label.new("Line: 0")    
+    @column_label = Qt::Label.new("Column: 0")    
     
     @ui.statusbar.addWidget(@line_label)
     @ui.statusbar.addWidget(@column_label)
     
     Qt::Object.connect(@ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self, SLOT('remove_tab(int)'))
     Qt::Object.connect(@ui.tabWidget, SIGNAL('currentChanged(int)'), self, SLOT('update_connects(int)'))
-
   end
 
   ## FILE SUBMENU SLOTS
@@ -73,7 +81,7 @@ class Start < Qt::MainWindow
     @ui.tabWidget.setVisible(true)
     @ui.no_file_widget.setVisible(false)
 
-    new_tab_index = @ui.tabWidget.addTab(New_Tab.new(self, nil), "untitled")
+    new_tab_index = @ui.tabWidget.addTab(New_Tab.new(self, nil, @@tab_width*10), "untitled")
     if @ui.tabWidget.count > 0
       @ui.toolbar_save_file.setEnabled(true)
       @ui.toolbar_run.setEnabled(true)
@@ -84,10 +92,11 @@ class Start < Qt::MainWindow
   end
 
   def open_file
-    @file_opened = false
     puts 'triggered open_file'
+    @file_opened = false
     @ui.tabWidget.setVisible(true)
     @ui.no_file_widget.setVisible(false)
+    @ui.toolbar_run.setEnabled(true)
 
     @filedialog = Qt::FileDialog
     @open_file = @filedialog.getOpenFileName(self, "Open file", Qt::Dir::homePath, "HTML Document(*.html);;All files(*)")
@@ -99,18 +108,18 @@ class Start < Qt::MainWindow
       (0..@ui.tabWidget.count).each do |i|
        if (File.basename(@current_file) == @ui.tabWidget.tabText(i))
          @ui.tabWidget.setCurrentIndex(i)
+         @ui.statusbar.showMessage("File already loaded.", 2000)
          @file_opened = true
          return
        end
       end
 
       unless @file_opened
-        @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file), File.basename(@open_file))
+        @ui.tabWidget.insertTab(@ui.tabWidget.count, New_Tab.new(@open_file, @@tab_width*10), File.basename(@open_file))
         @ui.tabWidget.setCurrentIndex(@ui.tabWidget.count-1)
         @ui.tabWidget.widget(@ui.tabWidget.count-1).setFocus
+        @ui.statusbar.showMessage("File loaded.", 2000)
       end
-
-       @ui.statusbar.showMessage("File loaded.", 2000)
     end
   end
 
@@ -133,6 +142,33 @@ class Start < Qt::MainWindow
     end
     @ui.statusbar.showMessage("File saved.", 2000)
     @ui.toolbar_save_file.setEnabled(false)
+  end
+
+  ## EDIT SUBMENU SLOTS
+  def settings
+    puts 'settings triggered'
+    @settings = Settings.new(self, @ui.toolBar.isVisible, @ui.statusbar.isVisible, @@tab_width, @tb_pos_int)
+
+    if @settings.exec == Qt::Dialog::Accepted
+      @ui.toolBar.setVisible(@settings.tb_enabled)
+      @ui.statusbar.setVisible(@settings.st_enabled)
+      @@tab_width = @settings.tab_w
+      @tb_pos_int = @settings.tb_pos
+      @tb_position = case @settings.tb_pos
+      when 0
+        Qt::TopToolBarArea
+      when 1
+        Qt::BottomToolBarArea
+      when 2
+        Qt::LeftToolBarArea
+      when 3
+        Qt::RightToolBarArea
+      end
+
+      addToolBar(@tb_position, @ui.toolBar)
+      puts 'settings applied'
+    end
+
   end
 
   ## TOOLS SUBMENU SLOTS
@@ -186,8 +222,8 @@ class Start < Qt::MainWindow
       @no_file = NoFileOpen.new(self)
       @no_file.show
     end
-    @line_label.setText("Line: 1")
-    @column_label.setText("Column: 1")
+    @line_label.setText("Line: 0")
+    @column_label.setText("Column: 0")
     puts "deleted tab ##{int}"
   end
 
@@ -212,6 +248,7 @@ class Start < Qt::MainWindow
     Qt::Object.connect(@ui.menu_hyperlink, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('link()'))
     Qt::Object.connect(@ui.menu_unordered, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('ulist()'))
     Qt::Object.connect(@ui.menu_ordered, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('olist()'))
+
     ## Toolbar connects
     Qt::Object.connect(@ui.toolbar_copy, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('copy()'))
     Qt::Object.connect(@ui.toolbar_cut, SIGNAL('activated()'), @ui.tabWidget.widget(int), SLOT('cut()'))
@@ -236,8 +273,8 @@ class Start < Qt::MainWindow
 
     @ui.tabWidget.widget(int).setFocus unless int < 0
 
-    @line_label.setText("Line: 1")
-    @column_label.setText("Column: 1")
+    @line_label.setText("Line: 0")
+    @column_label.setText("Column: 0")
   end
 end
 

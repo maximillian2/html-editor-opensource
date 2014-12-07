@@ -8,19 +8,14 @@ class New_Tab < Qt::PlainTextEdit
   slots 'focus_current(int)'
 
   
-  def initialize(parent = nil, open_file)
+  def initialize(parent = nil, open_file, tab_width)
     super(parent)
     
      unless open_file.nil?
       setPlainText(File.new(open_file).read)
     end
     
-    # @metrics = Qt::FontMetrics.new(Qt::Font.new("Monospace", 10))
-
-
-    # setTabStopWidth(2 * @metrics.width(' '))
-    setTabStopWidth(20)
-    # setCursorWidth(20)
+    setTabStopWidth(tab_width)
   end
  
   def bold
@@ -48,7 +43,7 @@ class New_Tab < Qt::PlainTextEdit
   end
   
   def image
-    self.insertPlainText("<img src = ''></img>")
+    self.insertPlainText("<img src = ''/>")
     cursor = self.textCursor 
     pos = cursor.position
     cursor.setPosition(pos-6)

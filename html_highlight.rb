@@ -3,17 +3,18 @@ class HTML_Highlighter < Qt::SyntaxHighlighter
     super
     @patterns = Hash.new
     @patterns[:html] = ["<[\/]?html>", "darkCyan"]
-    @patterns[:body] = ["<[\/]?body>", "darkCyan"]
+    @patterns[:body] = ["<[\/]?(body|head)>", "darkCyan"]
     @patterns[:title] = ["<[\/]?title>", "darkCyan"]
     @patterns[:two_letter] = ["<[\/]?(br|ul|ol)>", "darkCyan"]
     @patterns[:sub_two] = ["<[\/]?(li|td|th)>", "cyan"]
     @patterns[:h] = ["<[\/]?h[1-6]>", "darkCyan"]
-    @patterns[:doctype] = ["<!DOCTYPE.[a-z]*>", "darkCyan"]
-    @patterns[:comment] = ["<!--[a-z].*-->", "green"]
-    @patterns[:one_letter_tags] = ["<[\/]?[auipq]>", "darkCyan"]
-    @patterns[:quote_marks] = ["[\'\"][a-z]*[\'\"]", "green"]
+    @patterns[:doctype] = ["<!DOCTYPE.[a-z].*>", "darkCyan"]
+    @patterns[:comment] = ["<!--[a-z].*-->", "gray"]
+    @patterns[:one_letter_tags] = ["<[\/]?[auipbq]([^>]*)>", "darkCyan"]
+    @patterns[:quote_marks] = ["[\'\"][A-Za-z].*[\'\"]", "green"]
+    # @patterns[:all] = ["<[\/]?[A-Za-z]>", "darkCyan"]
+    # @patterns[:options] = ["(\S+).=", "green"]
     # TODO: finish 'em
-    # comment this code pls :)
   end
 
   def highlightBlock(text)

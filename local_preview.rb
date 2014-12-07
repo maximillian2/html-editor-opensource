@@ -6,10 +6,9 @@ class Integer
       ' bytes'  => 1024,
       ' kilobytes' => 1024 * 1024,
       ' megabytes' => 1024 * 1024 * 1024,
-    }.each_pair { |e, s| return "#{s / self}#{e}" if self < s }
+    }.each_pair { |e, s| return "#{s / self}#{e}" if self < s && self != 0 } ## FIXME if self < 0 crush
   end
 end
-
 
 class Local_Preview < Qt::Dialog
   def initialize(parent = nil, input)
